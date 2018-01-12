@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.baidu.idcardquality.IDcardQualityProcess;
 import com.baidu.ocr.ui.R;
 import com.baidu.ocr.ui.util.DimensionUtil;
 import com.baidu.ocr.ui.util.ImageUtil;

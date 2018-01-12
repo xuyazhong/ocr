@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.baidu.idcardquality.IDcardQualityProcess;
+
 import com.baidu.ocr.ui.R;
 import com.baidu.ocr.ui.crop.CropView;
 import com.baidu.ocr.ui.crop.FrameOverlayView;
@@ -164,42 +164,9 @@ public class CameraActivity extends Activity {
                 break;
         }
 
-        // 身份证本地能力初始化
-        if (maskType == MaskView.MASK_TYPE_ID_CARD_FRONT || maskType == MaskView.MASK_TYPE_ID_CARD_BACK) {
-            if (isNativeEnable) {
-                initNative(token);
-            }
-        }
         cameraView.setEnableScan(isNativeEnable);
         cameraView.setMaskType(maskType, this);
         cropMaskView.setMaskType(maskType);
-    }
-
-    private void initNative(final String token) {
-        CameraThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                // 加载本地so失败, 异常返回getloadSoException
-                if (IDcardQualityProcess.getLoadSoException() != null) {
-                    cameraView.setInitNativeStatus(CameraView.NATIVE_SOLOAD_FAIL);
-                    return;
-                }
-                // 授权状态
-                int authStatus = IDcardQualityProcess.init(token);
-                // 加载模型状态
-                int initModelStatus = IDcardQualityProcess.getInstance()
-                        .idcardQualityInit(CameraActivity.this.getAssets(),
-                                "models");
-                if (authStatus != 0) {
-                    cameraView.setInitNativeStatus(CameraView.NATIVE_AUTH_FAIL);
-                    return;
-                }
-                if (initModelStatus != 0) {
-                    cameraView.setInitNativeStatus(CameraView.NATIVE_INIT_FAIL);
-                    return;
-                }
-            }
-        });
     }
 
     private void showTakePicture() {
@@ -489,7 +456,6 @@ public class CameraActivity extends Activity {
      */
     private void doClear() {
         CameraThreadPool.cancelAutoFocusTimer();
-        IDcardQualityProcess.getInstance().releaseModel();
     }
 
 
