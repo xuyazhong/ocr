@@ -346,12 +346,7 @@ public class CameraView extends FrameLayout {
 
         // 调用本地质量控制请求
         switch (maskType) {
-            case MaskView.MASK_TYPE_ID_CARD_FRONT:
-                status = IDcardQualityProcess.getInstance().idcardQualityDetectionImg(bitmap, true);
-                break;
-            case MaskView.MASK_TYPE_ID_CARD_BACK:
-                status = IDcardQualityProcess.getInstance().idcardQualityDetectionImg(bitmap, false);
-                break;
+
             default:
                 status = 1;
         }
@@ -609,7 +604,6 @@ public class CameraView extends FrameLayout {
     }
 
     public void release() {
-        IDcardQualityProcess.getInstance().releaseModel();
     }
 
     private class CameraViewTakePictureCallback implements ICameraControl.OnTakePictureCallback {
